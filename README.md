@@ -1,6 +1,7 @@
 # test-task-accordion
 Реализовать используя jQuery. (без jQuery UI)
 Дано JSON - массив объектов.
+
 [
 {"title":"United Kingdom","text":"The United Kingdom of Great Britain and Northern Ireland, commonly
 known as the United Kingdom (UK) or Britain, is a sovereign state in Europe."},
@@ -12,6 +13,7 @@ Espa\u00f1a), is a sovereign state located on the Iberian Peninsula in southwest
 {"title":"Germany","text":"Germany, officially the Federal Republic of Germany (German: Bundesrepublik
 Deutschland), is a federal parliamentary republic in western-central Europe."}
 ]
+
 Следует отсортировать по алфавиту по title и вывести в виде accordion.
 Так-же, должна быть возможность интерактивно удалить объект из accordion и поменять направление
 сортировки.
