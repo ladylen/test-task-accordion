@@ -1,17 +1,15 @@
-var json_data = '[{"title":"United Kingdom","text":"The United Kingdom of Great Britain and Northern Ireland, commonly known as the United Kingdom (UK) or Britain, is a sovereign state in Europe."}, \
-{"title":"France","text":"France, officially the French Republic (French: R\u00e9publique fran\u00e7aise), is a unitary sovereign state comprising territory in western Europe and several overseas regions and territories."}, \
-{"title":"Spain","text":"Spain (Spanish: Espa\u00f1a), officially the Kingdom of Spain (Spanish: Reino de Espa\u00f1a), is a sovereign state located on the Iberian Peninsula in southwestern Europe."}, \
-{"title":"Germany","text":"Germany, officially the Federal Republic of Germany (German: Bundesrepublik Deutschland), is a federal parliamentary republic in western-central Europe."} \
-]';
 
-var div_acc = document.getElementById("accordion");
-var rem_link;
-var div_box;
-var div_title;
-var div_text;
+var divAcc = document.getElementById("accordion");
+
+
+var divTitle;
+var divText;
 var input;
 
-var js_list = JSON.parse(json_data);
+var jsList = [{"title":"United Kingdom","text":"The United Kingdom of Great Britain and Northern Ireland, commonly known as the United Kingdom (UK) or Britain, is a sovereign state in Europe."}, 
+{"title":"France","text":"France, officially the French Republic (French: R\u00e9publique fran\u00e7aise), is a unitary sovereign state comprising territory in western Europe and several overseas regions and territories."}, 
+{"title":"Spain","text":"Spain (Spanish: Espa\u00f1a), officially the Kingdom of Spain (Spanish: Reino de Espa\u00f1a), is a sovereign state located on the Iberian Peninsula in southwestern Europe."}, 
+{"title":"Germany","text":"Germany, officially the Federal Republic of Germany (German: Bundesrepublik Deutschland), is a federal parliamentary republic in western-central Europe."}];
 
 //-------------compare for sorting---------------
 
@@ -21,50 +19,66 @@ function compareObjects (a, b) {
   return 0;
 };
 
-js_list.sort(compareObjects);
+jsList.sort(compareObjects);
 
 
 //-------------fill page with data---------------
 
 function fillpage(list) {
+	var remLink;
+	var divBox;
 	var i;
-
+	var test;
+	
+	//  clear divAcc befor create Accordion List
+	while(divAcc.firstChild) divAcc.removeChild(divAcc.firstChild); 
+	
 	for (i = 0; i < list.length; i++) {
-		//document.clear();
-  		div_box = document.createElement("div");
-  		div_box.className = "div_box";
-  		div_acc.appendChild(div_box);
+  		divBox = document.createElement("div");
+  		divBox.className = "divBox";
+  		divAcc.appendChild(divBox);
+/*
+ * ***trying to add element to page with jquery***
+ * 
+$(document).ready(function(){
+  //test = "<p>Test"+i+"</p>";
+  //$(divAcc).append(test);
+  alert(list);
+  divTitle = '<a id='+'"divTitle'+i+'" class="accordion-section-title" href="#accordion'+i+'"></div>';
+  alert(divTitle);
+  $(divAcc).append(divTitle);
+  
+});*/
+		divTitle = document.createElement("a");
+  		divTitle.id = "divTitle"+i;
+  		divTitle.className = "accordion-section-title";
+  		divTitle.href = "#accordion"+i;
+  		divBox.appendChild(divTitle);
+		divTitle.appendChild(document.createTextNode(list[i].title));
 
-		div_title = document.createElement("a");
-  		div_title.id = "div_title"+i;
-  		div_title.className = "accordion-section-title";
-  		div_title.href = "#accordion"+i;
-  		div_box.appendChild(div_title);
-		div_title.appendChild(document.createTextNode(list[i].title));
+		remLink = document.createElement("a");
+  		remLink.className = "rem";
+  		remLink.href = "#remove"+i;
+  		divBox.appendChild(remLink);
+		remLink.appendChild(document.createTextNode("Remove node"));
 
-		rem_link = document.createElement("a");
-  		rem_link.className = "rem";
-  		rem_link.href = "#remove"+i;
-  		div_box.appendChild(rem_link);
-		rem_link.appendChild(document.createTextNode("Remove node"));
-
-		div_text = document.createElement("div");
-  		div_text.id = "accordion"+i;
-  		div_text.className = "accordion-section-content";
-  		div_box.appendChild(div_text);
-		div_text.appendChild(document.createTextNode(list[i].text));
+		divText = document.createElement("div");
+  		divText.id = "accordion"+i;
+  		divText.className = "accordion-section-content";
+  		divBox.appendChild(divText);
+		divText.appendChild(document.createTextNode(list[i].text));
 }
 input = document.createElement("input");
 input.id = "button";
 input.type = "button";
 input.className = "input";
-div_box.appendChild(input);
+divBox.appendChild(input);
 input.value ="Re-order";
 
   
 }
 
-fillpage(js_list);
+fillpage(jsList);
 
 //-------------accordion---------------
 
