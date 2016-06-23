@@ -112,8 +112,22 @@ $('document').ready(function() {
 $('document').ready(function(){
   $('#accordion .rem').click(function(){
 
-    $(this).parent('div').remove();
+    var remDiv = $(this).parent('div');
+    var remDivText = remDiv.text();
+    var divTitle = remDivText.substring(0, remDivText.indexOf('Remove',0));
+    
+    //alert(divTitle);
+    remDiv.remove();
 
+  for (i = 0; i < jsList.length; i++) {
+    if(jsList[i].title === divTitle) {
+      jsList.splice(i,1);
+      //alert(jsList[i].title);
+      //return 0;
+    } 
+  }
+
+     
     return false;
   });
 });
