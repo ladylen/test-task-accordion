@@ -47,11 +47,9 @@ function fillpage(list) {
   		divAcc.appendChild(divBox);
 
 		divTitle = document.createElement("a");
-//   		divTitle.id = "divTitle"+i;
   		divTitle.className = "accordion-section-title";
-		
+		// add handler on click
 		divTitle.onclick = accoClickItem;
-		
   		divTitle.href = "#accordion"+i;
   		divBox.appendChild(divTitle);
 		divTitle.appendChild(document.createTextNode(list[i].title));
@@ -61,9 +59,8 @@ function fillpage(list) {
 		remLink = document.createElement("a");
   		remLink.className = "rem";
   		remLink.href = "#remove"+i;
-		
+		// add handler on click
 		remLink.onclick = removeItem;
-		
   		divBox.appendChild(remLink);
 		remLink.appendChild(document.createTextNode("Remove node"));
 
@@ -72,9 +69,7 @@ function fillpage(list) {
   		divText.className = "accordion-section-content";
   		divBox.appendChild(divText);
 		divText.appendChild(document.createTextNode(list[i].text));
-		//alert("Done!");
-}
-  
+	}
 }
 
 
@@ -135,13 +130,11 @@ function removeItem(){
     var remDivText = remDiv.text();
     var divTitle = remDivText.substring(0, remDivText.indexOf('Remove',0));
     
-//     alert(divTitle);
     remDiv.remove();
 
   for (i = 0; i < jsList.length; i++) {
     if(jsList[i].title === divTitle) {
       jsList.splice(i,1);
-//       alert(jsList);
     } 
   } return false;
 }
