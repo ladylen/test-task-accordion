@@ -11,7 +11,7 @@ var jsList = [{"title":"United Kingdom","text":"The United Kingdom of Great Brit
 {"title":"Spain","text":"Spain (Spanish: Espa\u00f1a), officially the Kingdom of Spain (Spanish: Reino de Espa\u00f1a), is a sovereign state located on the Iberian Peninsula in southwestern Europe."}, 
 {"title":"Germany","text":"Germany, officially the Federal Republic of Germany (German: Bundesrepublik Deutschland), is a federal parliamentary republic in western-central Europe."}];
 
-//-------------compare for sorting---------------
+//-------------compare for sorting INC---------------
 
 function compareObjects (a, b) {
   if (a.title > b.title) return 1;
@@ -19,7 +19,27 @@ function compareObjects (a, b) {
   return 0;
 };
 
+//-------------compare for sorting DEC---------------
+
+function compareObjectsDec (a, b) {
+  if (a.title < b.title) return 1;
+  if (a.title > b.title) return -1;
+  return 0;
+};
+
+
 jsList.sort(compareObjects);
+// var initJsList = {};
+// initJsList = jsList;//.sort(compareObjects);
+// 
+// 
+// $(document).ready(function(){
+//   var elButton = "<button class='btn-reload'>Reload</button>";
+//   $("body").append(elButton);
+//   $(".btn-reload").on('click', function(){
+//     fillpage(initJsList);
+//   });
+// });
 
 
 //-------------fill page with data---------------
@@ -37,20 +57,9 @@ function fillpage(list) {
   		divBox = document.createElement("div");
   		divBox.className = "divBox";
   		divAcc.appendChild(divBox);
-/*
- * ***trying to add element to page with jquery***
- * 
-$(document).ready(function(){
-  //test = "<p>Test"+i+"</p>";
-  //$(divAcc).append(test);
-  alert(list);
-  divTitle = '<a id='+'"divTitle'+i+'" class="accordion-section-title" href="#accordion'+i+'"></div>';
-  alert(divTitle);
-  $(divAcc).append(divTitle);
-  
-});*/
+
 		divTitle = document.createElement("a");
-  		divTitle.id = "divTitle"+i;
+//   		divTitle.id = "divTitle"+i;
   		divTitle.className = "accordion-section-title";
   		divTitle.href = "#accordion"+i;
   		divBox.appendChild(divTitle);
@@ -67,18 +76,30 @@ $(document).ready(function(){
   		divText.className = "accordion-section-content";
   		divBox.appendChild(divText);
 		divText.appendChild(document.createTextNode(list[i].text));
+		//alert("Done!");
 }
-input = document.createElement("input");
-input.id = "button";
-input.type = "button";
-input.className = "input";
-divBox.appendChild(input);
-input.value ="Re-order";
-
   
 }
+$(document).ready(function(){
+  var elButton = "<button class='btn inc'>Click me!</button>";
+  $("body").append(elButton);
+  $(".btn").on('click', function(){
+    if($(this).is('.inc')) {
+      $(this).removeClass("inc");
+      $(this).addClass('dec');
+      jsList.sort(compareObjectsDec);
+      fillpage(jsList);
+    } else {
+	$(this).removeClass("dec");
+	$(this).addClass('inc');
+	jsList.sort(compareObjects);
+	fillpage(jsList);
+    }
+  });
+});
 
 fillpage(jsList);
+
 
 //-------------accordion---------------
 
@@ -91,6 +112,7 @@ $('document').ready(function() {
     $('.accordion-section-title').click(function(e) {
         // Grab current anchor value
         var currentAttrValue = $(this).attr('href');
+	//alert(currentAttrValue);
 
         if($(e.target).is('.active')) {
             close_accordion_section();
@@ -116,14 +138,13 @@ $('document').ready(function(){
     var remDivText = remDiv.text();
     var divTitle = remDivText.substring(0, remDivText.indexOf('Remove',0));
     
-    //alert(divTitle);
+//     alert(divTitle);
     remDiv.remove();
 
   for (i = 0; i < jsList.length; i++) {
     if(jsList[i].title === divTitle) {
       jsList.splice(i,1);
-      //alert(jsList[i].title);
-      //return 0;
+//       alert(jsList);
     } 
   }
 
