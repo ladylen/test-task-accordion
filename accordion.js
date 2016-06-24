@@ -27,19 +27,8 @@ function compareObjectsDec (a, b) {
   return 0;
 };
 
-
 jsList.sort(compareObjects);
-// var initJsList = {};
-// initJsList = jsList;//.sort(compareObjects);
-// 
-// 
-// $(document).ready(function(){
-//   var elButton = "<button class='btn-reload'>Reload</button>";
-//   $("body").append(elButton);
-//   $(".btn-reload").on('click', function(){
-//     fillpage(initJsList);
-//   });
-// });
+
 
 
 //-------------fill page with data---------------
@@ -48,7 +37,6 @@ function fillpage(list) {
 	var remLink;
 	var divBox;
 	var i;
-	var test;
 	
 	//  clear divAcc befor create Accordion List
 	while(divAcc.firstChild) divAcc.removeChild(divAcc.firstChild); 
@@ -61,13 +49,21 @@ function fillpage(list) {
 		divTitle = document.createElement("a");
 //   		divTitle.id = "divTitle"+i;
   		divTitle.className = "accordion-section-title";
+		
+		divTitle.onclick = accoClickItem;
+		
   		divTitle.href = "#accordion"+i;
   		divBox.appendChild(divTitle);
 		divTitle.appendChild(document.createTextNode(list[i].title));
 
+
+
 		remLink = document.createElement("a");
   		remLink.className = "rem";
   		remLink.href = "#remove"+i;
+		
+		remLink.onclick = removeItem;
+		
   		divBox.appendChild(remLink);
 		remLink.appendChild(document.createTextNode("Remove node"));
 
@@ -80,6 +76,8 @@ function fillpage(list) {
 }
   
 }
+
+
 $(document).ready(function(){
   var elButton = "<button class='btn inc'>Click me!</button>";
   $("body").append(elButton);
@@ -103,13 +101,14 @@ fillpage(jsList);
 
 //-------------accordion---------------
 
-$('document').ready(function() {
+
     function close_accordion_section() {
         $('.accordion .accordion-section-title').removeClass('active');
         $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
     }
 
-    $('.accordion-section-title').click(function(e) {
+
+function accoClickItem(e) {
         // Grab current anchor value
         var currentAttrValue = $(this).attr('href');
 	//alert(currentAttrValue);
@@ -126,13 +125,11 @@ $('document').ready(function() {
         }
 
         e.preventDefault();
-    });
-});
+}
 
 //-------------remove item---------------
 
-$('document').ready(function(){
-  $('#accordion .rem').click(function(){
+function removeItem(){
 
     var remDiv = $(this).parent('div');
     var remDivText = remDiv.text();
@@ -146,13 +143,5 @@ $('document').ready(function(){
       jsList.splice(i,1);
 //       alert(jsList);
     } 
-  }
-
-     
-    return false;
-  });
-});
-
-
-
-
+  } return false;
+}
