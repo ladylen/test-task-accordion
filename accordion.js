@@ -1,4 +1,4 @@
-//var divAcc = document.getElementById("accordion");
+
 var divAcc = $("#accordion")[0];
 
 
@@ -25,75 +25,26 @@ function compareObjectsDec (a, b) {
 
 jsList.sort(compareObjects);
 
-//		div = $("#accordion").append("<div class='divBox'></div>")[0];
+
+//-------------fill page with data---------------
 
 function fillPageJQ(list) {
 
-  var divBox;
+  var remLink;
   $(divAcc).empty();
   
-  
   list.forEach(function(item, i, list) {
-   //  divBox = $(divAcc).append("<div class='divBox'></div>");
-    divTitle = $(divAcc).append("<a class='div-box accordion-section-title' href='#accordion"+i+"'>"+item.title+"</a>");
-     $(divTitle).on('click', accoClickItem);
-// 		// add handler on click
-// 		divTitle.onclick = accoClickItem;
-    
-    $(divAcc).append("<a class='div-box rem' href='#remove"+i+"'>Remove node</a>").on('click', removeItem);
-// 		// add handler on click
-// 		remLink.onclick = removeItem;
+   divTitle = $("<a class='accordion-section-title' href='#accordion"+i+"'>"+item.title+"</a>").appendTo(divAcc);
+   $(divTitle).on('click', accoClickItem);
+   
+   remLink = $("<a class='rem' id='#remove"+i+"'>Remove node</a>").appendTo(divAcc);
+   $(remLink).on('click', removeItem);
 		
-    $(divAcc).append("<div class='div-box accordion-section-content' id='accordion"+i+"'>"+item.text+"</div>");
-//    $(".div-box").wrap("<div class='divBox'></div>");
+   $(divAcc).append("<div class='accordion-section-content' id='accordion"+i+"'>"+item.text+"</div>");
   });
 }
 
 fillPageJQ(jsList);
-
-
-//-------------fill page with data---------------
-
-function fillPage(list) {
-	var remLink;
-	var divBox;
-	var i;
-	
-	//  clear divAcc befor create Accordion List
-	//while(divAcc.firstChild) divAcc.removeChild(divAcc.firstChild); 
-	$(divAcc).empty();
-	
-	
-	for (i = 0; i < list.length; i++) {
-    		divBox = document.createElement("div");
-    		divBox.className = "divBox";
-    		divAcc.appendChild(divBox);
-
-		divTitle = document.createElement("a");
-  		divTitle.className = "accordion-section-title";
-		// add handler on click
-		divTitle.onclick = accoClickItem;
-  		divTitle.href = "#accordion"+i;
-  		divBox.appendChild(divTitle);
-		divTitle.appendChild(document.createTextNode(list[i].title));
-
-
-
-		remLink = document.createElement("a");
-  		remLink.className = "rem";
-  		remLink.href = "#remove"+i;
-		// add handler on click
-		remLink.onclick = removeItem;
-  		divBox.appendChild(remLink);
-		remLink.appendChild(document.createTextNode("Remove node"));
-
-		divText = document.createElement("div");
-  		divText.id = "accordion"+i;
-  		divText.className = "accordion-section-content";
-  		divBox.appendChild(divText);
-		divText.appendChild(document.createTextNode(list[i].text));
-	}
-}
 
 
 $(document).ready(function(){
@@ -104,17 +55,15 @@ $(document).ready(function(){
       $(this).removeClass("inc");
       $(this).addClass('dec');
       jsList.sort(compareObjectsDec);
-      fillPage(jsList);
+      fillPageJQ(jsList);
     } else {
 	$(this).removeClass("dec");
 	$(this).addClass('inc');
 	jsList.sort(compareObjects);
-	fillPage(jsList);
+	fillPageJQ(jsList);
     }
   });
 });
-
-//fillPage(jsList);
 
 
 //-------------accordion---------------
@@ -149,11 +98,19 @@ function accoClickItem(e) {
 
 function removeItem(){
 
-    var remDiv = $(this).parent('div');
-    var remDivText = remDiv.text();
-    var divTitle = remDivText.substring(0, remDivText.indexOf('Remove',0));
     
-    remDiv.remove();
+    var id = $(this).attr('id');
+    var index = id[id.length-1]
+
+    var remDivText = $(this).find('#accordion1');
+    alert(remDivText);
+    $(remDivText).remove();
+    
+    var remDiv = $(this).remove();
+//     var remDivText = remDiv.text();
+//     var divTitle = remDivText.substring(0, remDivText.indexOf('Remove',0));
+    
+    //remDiv.remove();
 
   for (i = 0; i < jsList.length; i++) {
     if(jsList[i].title === divTitle) {
