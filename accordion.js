@@ -29,18 +29,20 @@ jsList.sort(compareObjects);
 //-------------fill page with data---------------
 
 function fillPageJQ(list) {
-
+  var divBox;
   var remLink;
   $(divAcc).empty();
   
   list.forEach(function(item, i, list) {
-   divTitle = $("<a class='accordion-section-title' href='#accordion"+i+"'>"+item.title+"</a>").appendTo(divAcc);
-   $(divTitle).on('click', accoClickItem);
+    //divBox = $("<div class='divBox'></div>").appendTo("#accordion");
+    //divTitle = $(divBox).append("<a class='accordion-section-title' href='#accordion"+i+"'>"+item.title+"</a>");
+    divTitle = $("<a class='accordion-section-title' href='#accordion"+i+"'>"+item.title+"</a>").appendTo("#accordion");
+    $(divTitle).on('click', accoClickItem);
    
-   remLink = $("<a class='rem' id='#remove"+i+"'>Remove node</a>").appendTo(divAcc);
-   $(remLink).on('click', removeItem);
+    remLink = $("<a class='rem' id='#remove"+i+"'>Remove node</a>").appendTo(divAcc);
+    $(remLink).on('click', removeItem);
 		
-   $(divAcc).append("<div class='accordion-section-content' id='accordion"+i+"'>"+item.text+"</div>");
+    $(divAcc).append("<div class='accordion-section-content' id='accordion"+i+"'>"+item.text+"</div>");
   });
 }
 
