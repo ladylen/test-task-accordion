@@ -1,6 +1,5 @@
 
-var divAcc = $("#accordion")[0];
-
+var divAcc = $("#accordion");
 
 var jsList = [{"title":"United Kingdom","text":"The United Kingdom of Great Britain and Northern Ireland, commonly known as the United Kingdom (UK) or Britain, is a sovereign state in Europe."}, 
 {"title":"France","text":"France, officially the French Republic (French: R\u00e9publique fran\u00e7aise), is a unitary sovereign state comprising territory in western Europe and several overseas regions and territories."}, 
@@ -28,41 +27,43 @@ jsList.sort(compareObjects);
 
 //-------------fill page with data---------------
 
-function fillPageJQ(list) {
+function fillPage(list) {
   var divBox;
-  var remLink;
-  $(divAcc).empty();
+
+  divAcc.empty();
   
   list.forEach(function(item, i, list) {
-    //divBox = $("<div class='divBox'></div>").appendTo("#accordion");
-    //divTitle = $(divBox).append("<a class='accordion-section-title' href='#accordion"+i+"'>"+item.title+"</a>");
-    divTitle = $("<a class='accordion-section-title' href='#accordion"+i+"'>"+item.title+"</a>").appendTo("#accordion");
-    $(divTitle).on('click', accoClickItem);
-   
-    remLink = $("<a class='rem' id='#remove"+i+"'>Remove node</a>").appendTo(divAcc);
-    $(remLink).on('click', removeItem);
-		
-    $(divAcc).append("<div class='accordion-section-content' id='accordion"+i+"'>"+item.text+"</div>");
+    divBox = $("<div class='divBox'></div>").appendTo(divAcc);
+    $("<a class='accordion-section-title' id='#accordion"+i+"' href='#accordion"+i+"'></a>")
+	.appendTo(divBox)
+	.text(item.title)
+	.on('click', accoClickItem);
+    $("<a class='rem' id='#remove"+i+"' href='#remove"+i+"'>Remove node</a>")
+	.appendTo(divBox)
+	.on('click', removeItem);
+
+    $("<div class='accordion-section-content' id='accordion"+i+"'></div>")
+	.appendTo(divBox)
+	.text(item.text);
+
   });
 }
 
-fillPageJQ(jsList);
-
+$(document).ready(fillPage(jsList));
 
 $(document).ready(function(){
-  var elButton = "<button class='btn inc'>Click me!</button>";
-  $("body").append(elButton);
-  $(".btn").on('click', function(){
+  
+  $("<button class='btn inc'>Click me!</button>").appendTo("body").on('click', function(){
     if($(this).is('.inc')) {
       $(this).removeClass("inc");
       $(this).addClass('dec');
       jsList.sort(compareObjectsDec);
-      fillPageJQ(jsList);
+      fillPage(jsList);
     } else {
 	$(this).removeClass("dec");
 	$(this).addClass('inc');
 	jsList.sort(compareObjects);
-	fillPageJQ(jsList);
+	fillPage(jsList);
     }
   });
 });
@@ -71,15 +72,15 @@ $(document).ready(function(){
 //-------------accordion---------------
 
 
-    function closeAccoSection() {
-        $('.accordion .accordion-section-title').removeClass('active');
-        $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
-    }
+function closeAccoSection() {
+  $('.accordion .accordion-section-title').removeClass('active');
+  $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
+}
 
 
 function accoClickItem(e) {
         // Grab current anchor value
-        var currentAttrValue = $(this).attr('href');
+        var currentAttrValue = $(this).attr('id');
 	//alert(currentAttrValue);
 
         if($(e.target).is('.active')) {
@@ -100,19 +101,11 @@ function accoClickItem(e) {
 
 function removeItem(){
 
+    var remDiv = $(this).parent('div');
+    var remDivText = remDiv.text();
+    var divTitle = remDivText.substring(0, remDivText.indexOf('Remove',0));
     
-    var id = $(this).attr('id');
-    var index = id[id.length-1]
-
-    var remDivText = $(this).find('#accordion1');
-    alert(remDivText);
-    $(remDivText).remove();
-    
-    var remDiv = $(this).remove();
-//     var remDivText = remDiv.text();
-//     var divTitle = remDivText.substring(0, remDivText.indexOf('Remove',0));
-    
-    //remDiv.remove();
+    remDiv.remove();
 
   for (i = 0; i < jsList.length; i++) {
     if(jsList[i].title === divTitle) {
